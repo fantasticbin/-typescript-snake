@@ -131,20 +131,20 @@ class Snake
         let y = this.Y;
 
         switch(this.direction) {
-            case "ArrowUp" :
-            case "Up" :
+            case "ArrowUp":
+            case "Up":
                 y -= 10;
                 break;
-            case "ArrowDown" :
-            case "Down" :
+            case "ArrowDown":
+            case "Down":
                 y += 10;
                 break;
-            case "ArrowLeft" :
-            case "Left" :
+            case "ArrowLeft":
+            case "Left":
                 x -= 10;
                 break;
-            case "ArrowRight" :
-            case "Right" :
+            case "ArrowRight":
+            case "Right":
                 x += 10;
                 break;
         }

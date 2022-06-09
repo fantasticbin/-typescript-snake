@@ -1,6 +1,8 @@
 import Snake from "./Snake";
 import Food from "./Food";
 import ScorePanel from "./ScorePanel";
+import AnyTouch from "any-touch";
+import type { AnyTouchEvent } from "any-touch";
 
 /**
  * 游戏控制器
@@ -30,6 +32,12 @@ class GameController
     {
         // 绑定键盘事件，当按下 上/下/左/右 时改变蛇的行动方向
         document.addEventListener("keydown", this.keyDownHandle.bind(this));
+
+        // 使用any-touch绑定滑动手势事件
+        const page = document.querySelector("html") as HTMLElement;
+        const at = new AnyTouch(page);
+        at.on(["panup", "pandown", "panright", "panleft"], this.panHandle.bind(this));
+
         this.snakeRun();
     }
 
@@ -56,6 +64,24 @@ class GameController
         this.snake.nowDirection = event.key;
         // 记录此次键盘操作
         this.lastKeyDown = event.key;
+    }
+
+    /**
+     * 滑动手势事件逻辑（最终模拟成键盘事件）
+     * @param event 事件属性
+     */
+    protected panHandle(event: AnyTouchEvent): void
+    {
+        const keyMap = new Map();
+        keyMap.set("up", "ArrowUp");
+        keyMap.set("down", "ArrowDown");
+        keyMap.set("left", "ArrowLeft");
+        keyMap.set("right", "ArrowRight");
+
+        let keyboardEvent = new KeyboardEvent(event.direction, {
+            key: keyMap.get(event.direction)
+        });
+        this.keyDownHandle(keyboardEvent);
     }
 
     /**
