@@ -8,6 +8,7 @@ TypeScript：
 
 -   typescript；
 -   ts-loader；
+-   any-touch；
 
 Webpack：
 
@@ -15,7 +16,7 @@ Webpack：
 -   webpack-cli；
 -   webpack-dev-server；
 -   html-webpack-plugin；
--   clean-webpack-plugin；
+-   eslint-webpack-plugin；
 
 Babel：
 
