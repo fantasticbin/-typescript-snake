@@ -4,10 +4,9 @@
   "description": "使用TypeScript + Webpack + Less实现贪吃蛇的例子",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode development --config webpack.config.js",
-    "publish": "webpack --mode production --config webpack.config.js",
-    "start": "webpack serve --open chrome.exe"
+    "dev": "webpack serve --config ./config/webpack.dev.js",
+    "build": "webpack --config ./config/webpack.prod.js",
+    "start": "npm run dev"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +23,7 @@
     "html-webpack-plugin": "^5.5.0",
     "less": "^4.1.2",
     "less-loader": "^11.0.0",
+    "mini-css-extract-plugin": "^2.6.0",
     "postcss": "^8.4.14",
     "postcss-loader": "^7.0.0",
     "postcss-preset-env": "^7.7.1",

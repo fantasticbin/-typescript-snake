@@ -1,5 +1,5 @@
 // 引入样式
-import "./style/index.less";
+import "./style/main.less";
 import GameController from "./modules/GameController";
 
 const game = new GameController();

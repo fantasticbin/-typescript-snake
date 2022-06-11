@@ -34,6 +34,7 @@ Less & CSS资源：
 -   postcss；
 -   postcss-loader；
 -   postcss-preset-env；
+-   mini-css-extract-plugin；
 
 ### **项目使用**
 

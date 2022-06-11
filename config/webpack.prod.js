@@ -4,9 +4,12 @@ const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 // 引入EsLint插件
 const ESLintWebpackPlugin = require("eslint-webpack-plugin");
+// 引入CSS单独打包插件
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // webpack中的所有配置信息
 module.exports = {
+    // 模式：development开发、production生产
     mode: "production",
     // 指定入口文件
     entry: "./src/main.ts",
@@ -14,9 +17,9 @@ module.exports = {
     // 指定打包文件所在目录
     output: {
         // 指定打包文件的目录
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "../dist"),
         // 打包后的文件名
-        filename: "bundle.js",
+        filename: "static/js/bundle.js",
         // 自动清空上一次打包的内容，webpack4需使用扩展包clean-webpack-plugin插件来进行自动清空操作
         clean: true,
 
@@ -36,33 +39,7 @@ module.exports = {
                 test: /\.ts$/,
                 // 要使用的loader
                 use: [
-                    // 配置babel
-                    {
-                        // 指定加载器
-                        loader: "babel-loader",
-                        // 设置babel
-                        options: {
-                            // 设置预定义环境
-                            presets: [
-                                [
-                                    // 指定环境的插件
-                                    "@babel/preset-env",
-                                    // 配置信息
-                                    {
-                                        // 要兼容的目标浏览器
-                                        targets: {
-                                            "chrome": "100",
-                                            "ie": "11"
-                                        },
-                                        // 指定corejs的版本
-                                        "corejs": "3",
-                                        // 使用corejs的方式：usage表示按需加载
-                                        "useBuiltIns": "usage"
-                                    }
-                                ]
-                            ]
-                        }
-                    },
+                    "babel-loader",
                     "ts-loader"
                 ],
                 // 要排除的文件
@@ -73,7 +50,7 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
-                    "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     // 引入postcss
                     {
@@ -104,7 +81,12 @@ module.exports = {
         }),
         new ESLintWebpackPlugin({
             // 指定检查文件的根目录
-            context: path.resolve(__dirname, "src"),
+            context: path.resolve(__dirname, "../src"),
+        }),
+        // 提取css成单独文件
+        new MiniCssExtractPlugin({
+            // 定义输出文件名和目录
+            filename: "static/css/main.css",
         })
     ],
 
