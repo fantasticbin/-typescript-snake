@@ -6,6 +6,8 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const ESLintWebpackPlugin = require("eslint-webpack-plugin");
 // 引入CSS单独打包插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// 引入CSS压缩打包插件
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 // webpack中的所有配置信息
 module.exports = {
@@ -58,12 +60,7 @@ module.exports = {
                         options: {
                             postcssOptions: {
                                 plugins: [
-                                    [
-                                        "postcss-preset-env",
-                                        {
-                                            browsers: "last 2 versions"
-                                        }
-                                    ]
+                                    "postcss-preset-env"
                                 ]
                             }
                         }
@@ -87,7 +84,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             // 定义输出文件名和目录
             filename: "static/css/main.css",
-        })
+        }),
+        new CssMinimizerPlugin()
     ],
 
     // 设置引用模块

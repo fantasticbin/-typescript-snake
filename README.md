@@ -35,6 +35,7 @@ Less & CSS资源：
 -   postcss-loader；
 -   postcss-preset-env；
 -   mini-css-extract-plugin；
+-   css-minimizer-webpack-plugin；
 
 ### **项目使用**
 
