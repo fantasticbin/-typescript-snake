@@ -2,14 +2,14 @@
 const path = require("path");
 // 引入HTML插件
 const HTMLWebpackPlugin = require("html-webpack-plugin");
-// 引入Clean插件
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// 引入EsLint插件
+const ESLintWebpackPlugin = require("eslint-webpack-plugin");
 
 // webpack中的所有配置信息
 module.exports = {
-    mode: "development",
+    mode: "production",
     // 指定入口文件
-    entry: "./src/index.ts",
+    entry: "./src/main.ts",
 
     // 指定打包文件所在目录
     output: {
@@ -17,6 +17,8 @@ module.exports = {
         path: path.resolve(__dirname, "dist"),
         // 打包后的文件名
         filename: "bundle.js",
+        // 自动清空上一次打包的内容，webpack4需使用扩展包clean-webpack-plugin插件来进行自动清空操作
+        clean: true,
 
         // 不使用箭头函数的方式定义
         environment: {
@@ -97,9 +99,12 @@ module.exports = {
 
     // 配置webpack插件
     plugins: [
-        new CleanWebpackPlugin(),
         new HTMLWebpackPlugin({
-            template: "./src/index.html"
+            template: "./public/index.html"
+        }),
+        new ESLintWebpackPlugin({
+            // 指定检查文件的根目录
+            context: path.resolve(__dirname, "src"),
         })
     ],
 
