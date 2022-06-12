@@ -24,6 +24,7 @@ Babel：
 -   babel-loader；
 -   @babel/core；
 -   @babel/preset-env；
+-   @babel/plugin-transform-runtime；
 
 Less & CSS资源：
 

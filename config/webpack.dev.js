@@ -31,35 +31,53 @@ module.exports = {
         // 指定要加载的规则
         rules: [
             {
-                // 指定规则生效的文件
-                test: /\.ts$/,
-                // 要使用的loader
-                use: [
-                    "babel-loader",
-                    "ts-loader"
-                ],
-                // 要排除的文件
-                exclude: /node_modules/
-            },
-
-            // 设置less文件的处理
-            {
-                test: /\.less$/,
-                use: [
-                    "style-loader",
-                    "css-loader",
-                    // 引入postcss
+                // 使用oneOf去优化打包速度，当文件对应的处理loader被检测到，就不用再去遍历其他的loader，提升打包速度
+                oneOf: [
                     {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env"
-                                ]
-                            }
-                        }
+                        // 指定规则生效的文件
+                        test: /\.ts$/,
+                        // 要使用的loader
+                        use: [
+                            // 配置babel
+                            {
+                                // 指定加载器
+                                loader: "babel-loader",
+                                // 设置babel
+                                options: {
+                                    // 开启babel缓存
+                                    cacheDirectory: true,
+                                    // 关闭缓存文件压缩
+                                    cacheCompression: false,
+                                    // 减少代码体积
+                                    plugins: ["@babel/plugin-transform-runtime"],
+                                }
+                            },
+                            "ts-loader"
+                        ],
+                        // 要排除的文件
+                        exclude: /node_modules/
                     },
-                    "less-loader"
+        
+                    // 设置less文件的处理
+                    {
+                        test: /\.less$/,
+                        use: [
+                            "style-loader",
+                            "css-loader",
+                            // 引入postcss
+                            {
+                                loader: "postcss-loader",
+                                options: {
+                                    postcssOptions: {
+                                        plugins: [
+                                            "postcss-preset-env"
+                                        ]
+                                    }
+                                }
+                            },
+                            "less-loader"
+                        ]
+                    }
                 ]
             }
         ]
@@ -73,6 +91,12 @@ module.exports = {
         new ESLintWebpackPlugin({
             // 指定检查文件的根目录
             context: path.resolve(__dirname, "../src"),
+            // 排除检查目录
+            exclude: "node_modules",
+            // 开启缓存
+            cache: true,
+            // 缓存输出文件路径
+            cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintcache")
         })
     ],
 
