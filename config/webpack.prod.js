@@ -20,8 +20,8 @@ module.exports = {
     output: {
         // 指定打包文件的目录
         path: path.resolve(__dirname, "../dist"),
-        // 打包后的文件名
-        filename: "static/js/bundle.js",
+        // 打包后的入口脚本文件名（动态设置文件名，并增加文件内容hash值的后缀）
+        filename: "static/js/[name].[contenthash:10].js",
         // 自动清空上一次打包的内容，webpack4需使用扩展包clean-webpack-plugin插件来进行自动清空操作
         clean: true,
 
@@ -106,8 +106,8 @@ module.exports = {
         }),
         // 提取css成单独文件
         new MiniCssExtractPlugin({
-            // 定义输出文件名和目录
-            filename: "static/css/main.css"
+            // 定义输出文件名和目录（动态设置文件名，并增加文件内容hash值的后缀）
+            filename: "static/css/[name].[contenthash:10].css"
         })
     ],
 
@@ -116,7 +116,16 @@ module.exports = {
         minimizer: [
             // css压缩
             new CssMinimizerPlugin()
-        ]
+        ],
+        // 代码分割配置（单入口时默认配置会将代码中引用node_modules包中的功能时单独打包，及import动态引入的功能进行单独打包）
+        // 本项目中因使用了any-touch，则会将这部分功能单独打包成js进行引入
+        splitChunks: {
+            chunks: "all"
+        },
+        // 将代码依赖单独记录到runtime文件中，保证依赖文件变更时，只改变它本身的hash和runtime的hash而不改变依赖者的hash
+        runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}.js`
+        }
     },
 
     // 设置引用模块

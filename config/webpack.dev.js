@@ -17,7 +17,7 @@ module.exports = {
         // 指定打包文件的目录
         path: undefined,
         // 打包后的文件名
-        filename: "bundle.js",
+        filename: "[name].[contenthash:10].js",
 
         // 不使用箭头函数的方式定义
         environment: {
@@ -99,6 +99,14 @@ module.exports = {
             cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintcache")
         })
     ],
+
+    // 配置压缩插件，webpack5官方建议使用这种方式
+    optimization: {
+        // 将代码依赖单独记录到runtime文件中，保证依赖文件变更时，只改变它本身的hash和runtime的hash而不改变依赖者的hash
+        runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}.js`
+        }
+    },
 
     // 设置引用模块
     resolve: {
