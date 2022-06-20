@@ -12,9 +12,9 @@ module.exports = {
                     "ie": "11"
                 },
                 // 指定corejs的版本
-                "corejs": "3",
+                corejs: "3",
                 // 使用corejs的方式：usage表示按需加载
-                "useBuiltIns": "usage"
+                useBuiltIns: "usage"
             }
         ]
     ]
