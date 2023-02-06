@@ -49,6 +49,7 @@ class GameController
     {
         const horizontal = ["ArrowLeft", "Left", "ArrowRight", "Right"];
         const vertical = ["ArrowUp", "Up", "ArrowDown", "Down"];
+        const beginBan = ["ArrowUp", "Up", "ArrowLeft", "Left"];
 
         // 防止水平调头
         if (horizontal.includes(this.lastKeyDown) && horizontal.includes(event.key)) {
@@ -57,6 +58,11 @@ class GameController
 
         // 防止垂直调头
         if (vertical.includes(this.lastKeyDown) && vertical.includes(event.key)) {
+            return;
+        }
+
+        // 防止游戏开始即结束
+        if (this.snake.nowDirection === "" && beginBan.includes(event.key)) {
             return;
         }
 

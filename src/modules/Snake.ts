@@ -79,6 +79,14 @@ class Snake
     }
 
     /**
+     * 返回蛇的行走方向
+     */
+    get nowDirection() : string
+    {
+        return this.direction
+    }
+
+    /**
      * 获取蛇的身体
      */
     get nowBodies(): HTMLCollectionOf<HTMLElement>
